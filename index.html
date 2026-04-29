@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AIA Alien Slang Quiz</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Noto Sans TC", "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+    }
+
+    /* ===== Layout ===== */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ===== Cover ===== */
+    .cover {
+      width: 55%;
+      background: #C8102E;
+      color: #fff;
+      padding: 64px;
+      position: relative;
+    }
+
+    .cover h1 {
+      font-size: 56px;
+      line-height: 1.1;
+      margin-top: 120px;
+    }
+
+    .cover .year {
+      margin-top: 24px;
+      font-size: 14px;
+    }
+
+    .cover .footer {
+      position: absolute;
+      bottom: 24px;
+      font-size: 10px;
+      opacity: 0.8;
+    }
+
+    /* ===== Right ===== */
+    .right {
+      width: 45%;
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 48px;
+    }
+
+    .geo {
+      position: absolute;
+      left: -120px;
+      top: 140px;
+      width: 520px;
+      height: 420px;
+      background: rgba(244,163,181,0.6);
+      clip-path: polygon(0 100%, 50% 0, 100% 100%);
+      z-index: 0;
+    }
+
+    /* ===== Card ===== */
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 420px;
+      max-width: 100%;
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Progress */
+    .progress {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: #6B7280;
+      gap: 12px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      background: #E5E7EB;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar span {
+      display: block;
+      height: 100%;
+      background: #9CA3AF;
+    }
+
+    .tag {
+      font-size: 12px;
+      font-weight: 700;
+      color: #2563EB;
+      letter-spacing: 0.15em;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 28px;
+      color: #111827;
+    }
+
+    input {
+      height: 48px;
+      border-radius: 14px;
+      border: 1px solid #D1D5DB;
+      padding: 0 14px;
+      font-size: 16px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #C8102E;
+    }
+
+    button {
+      align-self: flex-end;
+      border: none;
+      padding: 10px 26px;
+      border-radius: 999px;
+      background: #111;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* ===== Result ===== */
+    .result h2 {
+      font-size: 22px;
+    }
+
+    .result-item {
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .result-item .q {
+      font-weight: 700;
+    }
+
+    .result-item .user {
+      color: #6B7280;
+    }
+
+    /* ===== RWD：平板與手機 ===== */
+    @media (max-width: 1023px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      .cover {
+        width: 100%;
+        padding: 32px;
+      }
+
+      .cover h1 {
+        font-size: 40px;
+        margin-top: 40px;
+      }
+
+      .right {
+        width: 100%;
+        justify-content: center;
+        padding: 32px 16px;
+      }
+
+      .geo {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cover h1 {
+        font-size: 32px;
+      }
+
+      .card {
+        padding: 24px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="layout">
+
+  <section class="cover">
+    <h1>MKT 雙月會<br>Z世代網路梗語</h1>
+    <div class="year"></div>
+    <div class="footer">
+      AIA confidential and proprietary information. Not for distribution.
+    </div>
+  </section>
+
+  <section class="right">
+    <div class="geo"></div>
+    <div id="app" class="card"></div>
+  </section>
+
+</div>
+
+<script>
+  const questions = [
+    { q: "高麗菜煮蛋那桌", a: "意指稱讚某人生活智慧高、懂得聰明處理棘手小事" },
+    { q: "估咩", a: "Google Maps" },
+    { q: "泉", a: "吹牛、胡扯、說話誇大其詞" },
+    { q: "蛋雕", a: "意指丟掉、拋棄" },
+    { q: "dddd", a: "懂的都懂：無須多言" },
+    { q: "VEN / VENTY", a: "網路迷因語，意指『問（wèn）』" },
+    { q: "M3", a: "You know what I'm saying?" }
+  ];
+
+  let step = 0;
+  const answers = Array(questions.length).fill("");
+  const app = document.getElementById("app");
+
+  function render() {
+    app.innerHTML = "";
+    app.classList.remove("result");
+
+    if (step === questions.length) {
+      renderResult();
+      return;
+    }
+
+    app.innerHTML = `
+      <div class="progress">
+        <div class="progress-bar">
+          <span style="width:${((step + 1) / questions.length) * 100}%"></span>
+        </div>
+        <span>${step + 1} / ${questions.length}</span>
+      </div>
+
+      <div class="tag">ALIEN SLANG</div>
+      <h2>${questions[step].q}</h2>
+
+      <input
+        placeholder="請輸入你的答案"
+        value="${answers[step]}"
+        oninput="answers[${step}] = this.value"
+      />
+
+      <button onclick="next()">
+        ${step === questions.length - 1 ? "完成並看答案" : "下一題"}
+      </button>
+    `;
+  }
+
+  function next() {
+    step++;
+    render();
+  }
+
+  function renderResult() {
+    app.classList.add("result");
+    app.innerHTML = "<h2>答案揭曉</h2>";
+    questions.forEach((item, i) => {
+      app.innerHTML += `
+        <div class="result-item">
+          <div class="q">${i + 1}. ${item.q}</div>
+          <div class="user">你的答案：${answers[i] || "（未填）"}</div>
+          <div>正確答案：${item.a}</div>
+        </div>
+      `;
+    });
+  }
+
+  render();
+</script>
+</body>
+</html>
